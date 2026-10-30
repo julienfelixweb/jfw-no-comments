@@ -4,7 +4,7 @@ Tags: comments, disable comments, spam, pingbacks, trackbacks
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ Block editor notes (comment type `note`) are not affected.
 Comments stay closed on content that was purged, and the default discussion settings stay closed. Deleted comments are not restored.
 
 == Changelog ==
+
+= 1.0.1 =
+* Security: the /wp/v2/comments REST filter can no longer be bypassed with a different case in the route or the type parameter, or with several posts.
 
 = 1.0.0 =
 * First release.

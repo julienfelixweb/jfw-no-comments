@@ -73,8 +73,8 @@ class Blocker {
 		array_map( array( __CLASS__, 'remove_post_type_support' ), get_post_types() );
 		add_action( 'registered_post_type', array( __CLASS__, 'remove_post_type_support' ) );
 
-		// REST API (block editor notes keep working).
-		add_filter( 'rest_pre_dispatch', array( __CLASS__, 'filter_rest' ), 10, 3 );
+		// REST API (block editor notes keep working). Once the route is matched and the parameters sanitized.
+		add_filter( 'rest_request_before_callbacks', array( __CLASS__, 'filter_rest' ), 10, 3 );
 
 		// Comment feeds.
 		add_action( 'template_redirect', array( __CLASS__, 'comment_feed_404' ), 0 );
@@ -184,30 +184,39 @@ class Blocker {
 	/**
 	 * Refuses /wp/v2/comments requests, except for block editor notes.
 	 *
-	 * @param mixed            $result  Response to replace the requested one, or null.
-	 * @param \WP_REST_Server  $server  Server.
-	 * @param \WP_REST_Request $request Request.
+	 * @param mixed            $response Response so far: null, or an error.
+	 * @param array            $handler  Route handler.
+	 * @param \WP_REST_Request $request  Request, with sanitized parameters ('COMMENT' is now 'comment').
 	 * @return mixed
 	 */
-	public static function filter_rest( $result, $server, $request ) {
-		if ( null !== $result || ! preg_match( '#^/wp/v2/comments(?:/(\d+))?/?$#', $request->get_route(), $matches ) ) {
-			return $result;
+	public static function filter_rest( $response, $handler, $request ) {
+		// Routes match case-insensitively: /wp/v2/Comments is the same route.
+		if ( null !== $response || ! preg_match( '#^/wp/v2/comments(?:/(\d+))?/?$#i', $request->get_route(), $matches ) ) {
+			return $response;
 		}
 
 		if ( isset( $matches[1] ) ) {
 			$comment = get_comment( (int) $matches[1] );
 			if ( ! $comment ) {
-				return $result;
+				return $response;
 			}
-			$type    = $comment->comment_type;
-			$post_id = (int) $comment->comment_post_ID;
+			$type     = $comment->comment_type;
+			$post_ids = array( (int) $comment->comment_post_ID );
 		} else {
-			$type    = null === $request['type'] ? 'comment' : (string) $request['type'];
-			$post    = $request['post'];
-			$post_id = is_array( $post ) ? (int) reset( $post ) : (int) $post;
+			$type     = null === $request['type'] ? 'comment' : (string) $request['type'];
+			$post_ids = array_map( 'intval', (array) $request['post'] );
+			// Every post of the list, not only the first one. No post: comments of all posts.
+			$post_ids = $post_ids ? $post_ids : array( 0 );
 		}
 
-		if ( in_array( $type, blocked_comment_types(), true ) && ! comments_allowed( $post_id ) ) {
+		$disallowed = array_filter(
+			$post_ids,
+			function ( $post_id ) {
+				return ! comments_allowed( $post_id );
+			}
+		);
+
+		if ( in_array( $type, blocked_comment_types(), true ) && $disallowed ) {
 			return new \WP_Error(
 				'jfw_no_comments_disabled',
 				__( 'Comments are disabled on this site.', 'jfw-no-comments' ),

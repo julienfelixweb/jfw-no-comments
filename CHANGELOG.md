@@ -2,6 +2,11 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.1] - 2026-10-30
+
+### Sécurité
+- REST API : `/wp/v2/comments` ne peut plus être contourné en changeant la casse de la route (`/wp/v2/Comments`) ou du paramètre `type` (`COMMENT`), ni en passant plusieurs articles dans `post` (tous sont désormais vérifiés, pas seulement le premier).
+
 ## [1.0.0] - 2026-10-30
 
 Première version.
@@ -16,4 +21,5 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.1]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.1
 [1.0.0]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.0
