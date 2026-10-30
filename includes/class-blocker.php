@@ -229,7 +229,7 @@ class Blocker {
 			);
 		}
 
-		return $result;
+		return $response;
 	}
 
 	/**

@@ -2,6 +2,11 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.4] - 2026-10-30
+
+### Corrigé
+- REST API : avertissement PHP « Undefined variable $result » sur les requêtes `/wp/v2/comments` autorisées (Notes, types de contenu qui gardent les commentaires), introduit en 1.0.1.
+
 ## [1.0.3] - 2026-10-30
 
 ### Corrigé
@@ -31,6 +36,7 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.4]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.4
 [1.0.3]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.3
 [1.0.2]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.2
 [1.0.1]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.1
