@@ -71,16 +71,7 @@ class Admin {
 	 * Dashboard: the Recent Comments of the Activity widget only show the comments that stay visible.
 	 */
 	public static function filter_dashboard_comments(): void {
-		add_action( 'pre_get_comments', array( __CLASS__, 'restrict_comment_query' ) );
-	}
-
-	/**
-	 * Restricts a comment query to the comments that stay visible.
-	 *
-	 * @param \WP_Comment_Query $query Comment query.
-	 */
-	public static function restrict_comment_query( $query ): void {
-		$query->query_vars = visible_comments_args( $query->query_vars );
+		add_action( 'pre_get_comments', __NAMESPACE__ . '\restrict_comment_query' );
 	}
 
 	/**

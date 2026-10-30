@@ -3,7 +3,7 @@
  * Plugin Name:       JFW No Comments
  * Plugin URI:        https://github.com/julienfelixweb/jfw-no-comments
  * Description:       Disables comments, pingbacks and trackbacks everywhere, and purges existing comments. Block editor notes keep working.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Julien Félix Web
@@ -21,7 +21,7 @@ namespace JFW\NoComments;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.0.5';
+const VERSION = '1.0.6';
 const FILE    = __FILE__;
 
 require_once __DIR__ . '/includes/functions.php';

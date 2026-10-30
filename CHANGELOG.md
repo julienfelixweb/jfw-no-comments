@@ -2,6 +2,12 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.6] - 2026-10-30
+
+### Sécurité
+- Flux des commentaires : quand des types de contenu gardent leurs commentaires, le flux global (et celui d'une recherche) ne contient plus que les commentaires de ces types.
+- Renforcement : sur le site public (y compris en AJAX), toute requête de commentaires d'un thème ou d'un plugin (`get_comments()`, `WP_Comment_Query`) ne renvoie plus que les commentaires qui restent visibles. L'admin, l'API REST, WP-CLI et le cron ne sont pas concernés.
+
 ## [1.0.5] - 2026-10-30
 
 ### Sécurité
@@ -45,6 +51,7 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.6]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.6
 [1.0.5]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.5
 [1.0.4]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.4
 [1.0.3]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.3

@@ -73,6 +73,9 @@ class Blocker {
 		add_filter( 'widget_comments_args', __NAMESPACE__ . '\visible_comments_args' );
 		add_filter( 'render_block_core/comment-template', array( __CLASS__, 'filter_comment_template_block' ), 10, 3 );
 
+		// Any other comment query of the front end (theme, plugins).
+		add_action( 'pre_get_comments', array( __CLASS__, 'filter_front_comment_query' ) );
+
 		// Comment and trackback support of post types (meta boxes, list columns, editor panel).
 		array_map( array( __CLASS__, 'remove_post_type_support' ), get_post_types() );
 		add_action( 'registered_post_type', array( __CLASS__, 'remove_post_type_support' ) );
@@ -82,6 +85,7 @@ class Blocker {
 
 		// Comment feeds.
 		add_action( 'template_redirect', array( __CLASS__, 'comment_feed_404' ), 0 );
+		add_filter( 'comment_feed_where', array( __CLASS__, 'filter_comment_feed_where' ) );
 
 		// Outgoing pingbacks.
 		add_action( 'pre_ping', array( __CLASS__, 'no_outgoing_pings' ), 10, 3 );
@@ -193,6 +197,25 @@ class Blocker {
 	}
 
 	/**
+	 * Restricts the comment queries of the front end. Not in the admin (dashboard apart), the REST API
+	 * (filter_rest() keeps the notes working), WP-CLI or cron.
+	 *
+	 * @param \WP_Comment_Query $query Comment query.
+	 */
+	public static function filter_front_comment_query( $query ): void {
+		if (
+			( is_admin() && ! wp_doing_ajax() )
+			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			|| ( defined( 'WP_CLI' ) && WP_CLI )
+			|| wp_doing_cron()
+		) {
+			return;
+		}
+
+		restrict_comment_query( $query );
+	}
+
+	/**
 	 * Removes comment and trackback support from a post type.
 	 *
 	 * @param string $post_type Post type.
@@ -277,6 +300,24 @@ class Blocker {
 			// Otherwise the canonical redirect guesses a new URL for the 404 (…/feed/feed/).
 			remove_action( 'template_redirect', 'redirect_canonical' );
 		}
+	}
+
+	/**
+	 * Comment feeds built by WP_Query (its own SQL, not WP_Comment_Query): only the allowed post types.
+	 *
+	 * @param string $where WHERE clause, the posts table is joined.
+	 * @return string
+	 */
+	public static function filter_comment_feed_where( $where ) {
+		global $wpdb;
+
+		$allowed = allowed_post_types();
+
+		if ( ! $allowed ) {
+			return $where . ' AND 1 = 0';
+		}
+
+		return $where . $wpdb->prepare( " AND {$wpdb->posts}.post_type IN (" . implode( ',', array_fill( 0, count( $allowed ), '%s' ) ) . ')', $allowed ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**

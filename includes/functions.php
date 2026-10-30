@@ -62,6 +62,15 @@ function visible_comments_args( array $args ): array {
 }
 
 /**
+ * Restricts a comment query to the comments that stay visible.
+ *
+ * @param \WP_Comment_Query $query Comment query.
+ */
+function restrict_comment_query( $query ): void {
+	$query->query_vars = visible_comments_args( $query->query_vars );
+}
+
+/**
  * Comment types that are blocked and purged. Block editor notes ('note') are not.
  *
  * @return string[]
