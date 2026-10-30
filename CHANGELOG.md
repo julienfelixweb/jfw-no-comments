@@ -2,6 +2,11 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.3] - 2026-10-30
+
+### Corrigé
+- Les réglages de discussion par défaut (commentaires, pings, pingbacks) ne peuvent plus être rouverts en base depuis `options.php`, l'API REST des réglages ou `update_option()` : ils restent fermés si le plugin est désactivé.
+
 ## [1.0.2] - 2026-10-30
 
 ### Corrigé
@@ -26,6 +31,7 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.3]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.3
 [1.0.2]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.2
 [1.0.1]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.1
 [1.0.0]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.0

@@ -88,6 +88,11 @@ class Blocker {
 			add_filter( 'pre_option_default_ping_status', array( __CLASS__, 'closed' ) );
 			add_filter( 'pre_option_default_pingback_flag', '__return_zero' );
 
+			// And in the database, whatever the entry point (options.php, REST settings, update_option()).
+			add_filter( 'pre_update_option_default_comment_status', array( __CLASS__, 'closed' ) );
+			add_filter( 'pre_update_option_default_ping_status', array( __CLASS__, 'closed' ) );
+			add_filter( 'pre_update_option_default_pingback_flag', '__return_zero' );
+
 			add_filter( 'xmlrpc_methods', array( __CLASS__, 'filter_xmlrpc_methods' ) );
 			add_filter( 'wp_headers', array( __CLASS__, 'filter_headers' ) );
 			add_filter( 'feed_links_show_comments_feed', '__return_false' );

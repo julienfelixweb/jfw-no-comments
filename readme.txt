@@ -4,7 +4,7 @@ Tags: comments, disable comments, spam, pingbacks, trackbacks
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ Block editor notes (comment type `note`) are not affected.
 Comments stay closed on content that was purged, and the default discussion settings stay closed. Deleted comments are not restored.
 
 == Changelog ==
+
+= 1.0.3 =
+* Fix: the default discussion settings can no longer be reopened in the database (options.php, REST settings, update_option()), so they stay closed if the plugin is deactivated.
 
 = 1.0.2 =
 * Fix: no SQL error in the purge when the jfw_no_comments_blocked_types filter returns an empty list.
