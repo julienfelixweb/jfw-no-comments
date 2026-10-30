@@ -26,12 +26,17 @@ class Purge {
 		global $wpdb;
 
 		$types = blocked_comment_types();
-		$rows  = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT comment_approved AS status, COUNT(*) AS n FROM %i WHERE comment_type IN (' . implode( ',', array_fill( 0, count( $types ), '%s' ) ) . ') GROUP BY comment_approved',
-				array_merge( array( $wpdb->comments ), $types )
-			)
-		);
+		$rows  = array();
+
+		// No blocked type (filter emptied): nothing to delete, and no empty IN () in the query.
+		if ( $types ) {
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					'SELECT comment_approved AS status, COUNT(*) AS n FROM %i WHERE comment_type IN (' . implode( ',', array_fill( 0, count( $types ), '%s' ) ) . ') GROUP BY comment_approved',
+					array_merge( array( $wpdb->comments ), $types )
+				)
+			);
+		}
 
 		$comments = array();
 		foreach ( $rows as $row ) {
@@ -54,16 +59,21 @@ class Purge {
 		global $wpdb;
 
 		$types       = blocked_comment_types();
-		$comment_ids = array_map(
-			'intval',
-			$wpdb->get_col(
-				$wpdb->prepare(
-					'SELECT comment_ID FROM %i WHERE comment_type IN (' . implode( ',', array_fill( 0, count( $types ), '%s' ) ) . ')',
-					array_merge( array( $wpdb->comments ), $types )
-				)
-			)
-		);
+		$comment_ids = array();
 		$post_ids    = array();
+
+		// No blocked type: only discussion gets closed.
+		if ( $types ) {
+			$comment_ids = array_map(
+				'intval',
+				$wpdb->get_col(
+					$wpdb->prepare(
+						'SELECT comment_ID FROM %i WHERE comment_type IN (' . implode( ',', array_fill( 0, count( $types ), '%s' ) ) . ')',
+						array_merge( array( $wpdb->comments ), $types )
+					)
+				)
+			);
+		}
 
 		foreach ( array_chunk( $comment_ids, 500 ) as $chunk ) {
 			$post_ids = array_merge(

@@ -2,6 +2,11 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.2] - 2026-10-30
+
+### Corrigé
+- Purge : plus d'erreur SQL quand le filtre `jfw_no_comments_blocked_types` renvoie une liste vide. Aucun commentaire n'est alors supprimé, seule la discussion est fermée.
+
 ## [1.0.1] - 2026-10-30
 
 ### Sécurité
@@ -21,5 +26,6 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.2]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.2
 [1.0.1]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.1
 [1.0.0]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.0
