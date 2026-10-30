@@ -1,0 +1,19 @@
+# Changelog
+
+Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
+
+## [1.0.0] - 2026-10-30
+
+Première version.
+
+### Ajouté
+- Blocage des commentaires, pingbacks et trackbacks sur toutes les entrées : formulaire, `wp-comments-post.php`, XML-RPC, trackbacks, REST API, `wp_new_comment()`.
+- Masquage des commentaires existants, du template de commentaires, du script `comment-reply` et des flux de commentaires (404).
+- Nettoyage de l'admin : menu Commentaires, Réglages → Discussion, barre d'admin, tableau de bord, boîtes et colonnes, blocs et widget de commentaires.
+- Page Outils → Purge des commentaires, et commandes `wp no-comments status` / `purge`, avec prise en charge du multisite.
+- Les Notes de l'éditeur de blocs continuent de fonctionner.
+- Filtres `jfw_no_comments_allowed_post_types` et `jfw_no_comments_blocked_types`.
+- Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
+- Traduction française.
+
+[1.0.0]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.0

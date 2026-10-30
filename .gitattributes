@@ -1,0 +1,6 @@
+# Left out of the GitHub release zips (installed and updated sites)
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpcs.xml.dist export-ignore
+/README.md export-ignore
+/CHANGELOG.md export-ignore

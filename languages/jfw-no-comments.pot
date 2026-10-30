@@ -1,0 +1,113 @@
+# Copyright (C) 2026 Julien Félix Web
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: JFW No Comments 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/julienfelixweb/jfw-no-comments/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T20:59:53+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: jfw-no-comments\n"
+
+#. Plugin Name of the plugin
+#: jfw-no-comments.php
+msgid "JFW No Comments"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: jfw-no-comments.php
+msgid "https://github.com/julienfelixweb/jfw-no-comments"
+msgstr ""
+
+#. Description of the plugin
+#: jfw-no-comments.php
+msgid "Disables comments, pingbacks and trackbacks everywhere, and purges existing comments. Block editor notes keep working."
+msgstr ""
+
+#. Author of the plugin
+#: jfw-no-comments.php
+msgid "Julien Félix Web"
+msgstr ""
+
+#. Author URI of the plugin
+#: jfw-no-comments.php
+msgid "https://www.julienfelix.com/"
+msgstr ""
+
+#: includes/class-admin.php:82
+#: includes/class-admin.php:83
+#: includes/class-admin.php:97
+msgid "Comments purge"
+msgstr ""
+
+#. translators: 1: number of deleted comments, 2: number of closed contents
+#: includes/class-admin.php:105
+#, php-format
+msgid "%1$d comments deleted, %2$d contents closed to comments and pings."
+msgstr ""
+
+#: includes/class-admin.php:114
+msgid "New comments, pingbacks and trackbacks are already blocked. This page deletes the existing ones and closes discussion on existing content. Block editor notes are kept."
+msgstr ""
+
+#: includes/class-admin.php:125
+msgid "Comments to delete"
+msgstr ""
+
+#: includes/class-admin.php:129
+msgid "Contents open to comments or pings"
+msgstr ""
+
+#: includes/class-admin.php:136
+msgid "Delete all these comments for good?"
+msgstr ""
+
+#: includes/class-admin.php:139
+msgid "This cannot be undone: export the database first."
+msgstr ""
+
+#: includes/class-admin.php:140
+msgid "Delete comments and close discussion"
+msgstr ""
+
+#: includes/class-admin.php:143
+msgid "Nothing to purge."
+msgstr ""
+
+#: includes/class-admin.php:154
+msgid "Sorry, you are not allowed to do that."
+msgstr ""
+
+#: includes/class-blocker.php:122
+#: includes/class-blocker.php:213
+msgid "Comments are disabled on this site."
+msgstr ""
+
+#: includes/class-blocker.php:123
+msgid "Comments disabled"
+msgstr ""
+
+#: includes/class-purge.php:176
+msgid "Approved"
+msgstr ""
+
+#: includes/class-purge.php:177
+msgid "Pending"
+msgstr ""
+
+#: includes/class-purge.php:178
+msgid "Spam"
+msgstr ""
+
+#: includes/class-purge.php:179
+msgid "Trash"
+msgstr ""
+
+#: includes/class-purge.php:180
+msgid "On trashed content"
+msgstr ""
