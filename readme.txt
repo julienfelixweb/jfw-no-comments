@@ -4,7 +4,7 @@ Tags: comments, disable comments, spam, pingbacks, trackbacks
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,11 @@ Block editor notes (comment type `note`) are not affected.
 Comments stay closed on content that was purged, and the default discussion settings stay closed. Deleted comments are not restored.
 
 == Changelog ==
+
+= 1.0.5 =
+* Security: the /wp/v2/comments REST filter can no longer be bypassed with the all, comments, pings or empty type aliases.
+* Security: the Latest Comments and Comment Template blocks no longer show existing comments when rendered on the server (content, theme templates, /wp/v2/block-renderer).
+* Fix: the Recent Comments of the dashboard Activity widget no longer show disabled comments.
 
 = 1.0.4 =
 * Fix: PHP warning "Undefined variable $result" on allowed /wp/v2/comments REST requests (block editor notes, post types that keep comments), introduced in 1.0.1.

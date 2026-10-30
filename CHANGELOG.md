@@ -2,6 +2,15 @@
 
 Les changements notables du plugin sont listés ici. Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), et les versions suivent le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.0.5] - 2026-10-30
+
+### Sécurité
+- REST API : `/wp/v2/comments` ne peut plus être contourné avec les alias de type `all`, `comments`, `pings` ou un type vide.
+- Les blocs Derniers commentaires et Modèle de commentaire n'affichent plus les commentaires existants quand ils sont rendus côté serveur (contenu, modèle de thème, `/wp/v2/block-renderer`).
+
+### Corrigé
+- Tableau de bord : les Commentaires récents du widget Activité n'affichent plus les commentaires désactivés. L'ancien retrait du widget `dashboard_recent_comments`, qui n'existe plus depuis WordPress 3.8, est supprimé.
+
 ## [1.0.4] - 2026-10-30
 
 ### Corrigé
@@ -36,6 +45,7 @@ Première version.
 - Mises à jour automatiques depuis les releases GitHub (plugin-update-checker 5.7).
 - Traduction française.
 
+[1.0.5]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.5
 [1.0.4]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.4
 [1.0.3]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.3
 [1.0.2]: https://github.com/julienfelixweb/jfw-no-comments/releases/tag/v1.0.2

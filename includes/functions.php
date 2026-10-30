@@ -44,6 +44,24 @@ function disabled_everywhere(): bool {
 }
 
 /**
+ * Restricts the arguments of a comment query to the comments that stay visible.
+ *
+ * @param array $args WP_Comment_Query arguments.
+ * @return array
+ */
+function visible_comments_args( array $args ): array {
+	$allowed = allowed_post_types();
+
+	if ( $allowed ) {
+		$args['post_type'] = $allowed;
+	} else {
+		$args['type__not_in'] = array_merge( (array) ( $args['type__not_in'] ?? array() ), blocked_comment_types() );
+	}
+
+	return $args;
+}
+
+/**
  * Comment types that are blocked and purged. Block editor notes ('note') are not.
  *
  * @return string[]

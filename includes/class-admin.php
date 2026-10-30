@@ -23,12 +23,12 @@ class Admin {
 	public static function init(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'add_page' ) );
 		add_action( 'admin_post_' . self::ACTION, array( __CLASS__, 'handle_purge' ) );
+		add_action( 'load-index.php', array( __CLASS__, 'filter_dashboard_comments' ) );
 
 		if ( disabled_everywhere() ) {
 			add_action( 'admin_menu', array( __CLASS__, 'remove_menus' ), 999 );
 			add_action( 'admin_init', array( __CLASS__, 'redirect_comment_screens' ) );
 			add_action( 'admin_bar_menu', array( __CLASS__, 'remove_admin_bar_nodes' ), 999 );
-			add_action( 'wp_dashboard_setup', array( __CLASS__, 'remove_dashboard_widget' ) );
 		}
 	}
 
@@ -68,10 +68,19 @@ class Admin {
 	}
 
 	/**
-	 * Removes the Recent Comments dashboard widget.
+	 * Dashboard: the Recent Comments of the Activity widget only show the comments that stay visible.
 	 */
-	public static function remove_dashboard_widget(): void {
-		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+	public static function filter_dashboard_comments(): void {
+		add_action( 'pre_get_comments', array( __CLASS__, 'restrict_comment_query' ) );
+	}
+
+	/**
+	 * Restricts a comment query to the comments that stay visible.
+	 *
+	 * @param \WP_Comment_Query $query Comment query.
+	 */
+	public static function restrict_comment_query( $query ): void {
+		$query->query_vars = visible_comments_args( $query->query_vars );
 	}
 
 	/**

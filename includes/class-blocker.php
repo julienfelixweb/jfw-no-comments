@@ -69,6 +69,10 @@ class Blocker {
 		add_filter( 'comments_template', array( __CLASS__, 'filter_comments_template' ), 20 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'dequeue_comment_reply' ), 100 );
 
+		// Comment blocks rendered on the server, from existing content, templates or the block renderer.
+		add_filter( 'widget_comments_args', __NAMESPACE__ . '\visible_comments_args' );
+		add_filter( 'render_block_core/comment-template', array( __CLASS__, 'filter_comment_template_block' ), 10, 3 );
+
 		// Comment and trackback support of post types (meta boxes, list columns, editor panel).
 		array_map( array( __CLASS__, 'remove_post_type_support' ), get_post_types() );
 		add_action( 'registered_post_type', array( __CLASS__, 'remove_post_type_support' ) );
@@ -97,6 +101,7 @@ class Blocker {
 			add_filter( 'wp_headers', array( __CLASS__, 'filter_headers' ) );
 			add_filter( 'feed_links_show_comments_feed', '__return_false' );
 			add_action( 'widgets_init', array( __CLASS__, 'unregister_widget' ) );
+			add_filter( 'render_block_core/latest-comments', '__return_empty_string' );
 			add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_editor_script' ) );
 		}
 	}
@@ -175,6 +180,19 @@ class Blocker {
 	}
 
 	/**
+	 * Empties the comment template block, used alone or in the Comments block.
+	 *
+	 * @param string    $content  Block content.
+	 * @param array     $block    Parsed block.
+	 * @param \WP_Block $instance Block instance.
+	 * @return string
+	 */
+	public static function filter_comment_template_block( $content, $block, $instance ) {
+		$post_id = isset( $instance->context['postId'] ) ? (int) $instance->context['postId'] : get_the_ID();
+		return comments_allowed( $post_id ) ? $content : '';
+	}
+
+	/**
 	 * Removes comment and trackback support from a post type.
 	 *
 	 * @param string $post_type Post type.
@@ -214,6 +232,15 @@ class Blocker {
 			$post_ids = $post_ids ? $post_ids : array( 0 );
 		}
 
+		// Aliases of WP_Comment_Query: '' and 'all' are every type.
+		$aliases = array(
+			''         => blocked_comment_types(),
+			'all'      => blocked_comment_types(),
+			'comments' => array( '', 'comment' ),
+			'pings'    => array( 'pingback', 'trackback' ),
+		);
+		$types = $aliases[ $type ] ?? array( $type );
+
 		$disallowed = array_filter(
 			$post_ids,
 			function ( $post_id ) {
@@ -221,7 +248,7 @@ class Blocker {
 			}
 		);
 
-		if ( in_array( $type, blocked_comment_types(), true ) && $disallowed ) {
+		if ( array_intersect( $types, blocked_comment_types() ) && $disallowed ) {
 			return new \WP_Error(
 				'jfw_no_comments_disabled',
 				__( 'Comments are disabled on this site.', 'jfw-no-comments' ),
